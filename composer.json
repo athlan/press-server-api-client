@@ -1,0 +1,23 @@
+{
+    "name": "athlan/press-server-api-client",
+    "description": "Press Server API Client",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Athlan",
+            "email": "me@athlan.pl"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "PressServerApi\\": "src/PressServerApi/"
+        }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~6.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.5.*"
+    }
+}
