@@ -18,12 +18,17 @@ class AnnouncementOperationFactory implements OperationFactoryInterface {
             return null;
         }
 
-        $id = $matches[1];
         $announcementParams = $this->extractParams($params);
 
-        var_dump($id, $announcementParams);
-
-        return new AnnouncementOperation();
+        return new AnnouncementOperation(
+            $operation,
+            $announcementParams['id'],
+            \DateTimeImmutable::createFromFormat("U", $announcementParams['data_start']),
+            \DateTimeImmutable::createFromFormat("U", $announcementParams['data_stop']),
+            $announcementParams['kategoria'],
+            $announcementParams['tresc'],
+            $announcementParams
+        );
     }
 
     private function extractParams($params) {
