@@ -4,6 +4,8 @@ namespace PressServerApi\Callback\Operation\Factory\Psr7Request;
 
 use PressServerApi\Callback\Operation\Factory\AnnouncementOperationFactory;
 use PressServerApi\Callback\Operation\Factory\AnnouncementDeleteOperationFactory;
+use PressServerApi\Callback\Operation\Factory\CategoryDeleteOperationFactory;
+use PressServerApi\Callback\Operation\Factory\CategoryOperationFactory;
 use PressServerApi\Callback\Operation\Factory\OperationFactoryInterface;
 use PHPUnit\Framework\TestCase;
 use GuzzleHttp\Psr7;
@@ -24,6 +26,8 @@ class CreateRequest extends TestCase
         $factories = [
             new AnnouncementOperationFactory(),
             new AnnouncementDeleteOperationFactory(),
+            new CategoryOperationFactory(),
+            new CategoryDeleteOperationFactory(),
         ];
 
         $this->operationsFromRequestFactory = new OperationsFromRequestFactory($factories);
@@ -60,4 +64,37 @@ class CreateRequest extends TestCase
         $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
         $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\AnnouncementDeleteOperation", $operation1, "First operation hould be add an announcement.");
     }
+
+    /**
+     * @test
+     */
+    public function factory_should_create_category_operation_from_request()
+    {
+        $body = file_get_contents("test/resources/requests/categories-update-raw.txt");
+
+        $request = Psr7\parse_request($body);
+
+        $operations = $this->operationsFromRequestFactory->createOperations($request);
+        $operation1 = current($operations);
+
+        $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
+        $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\CategoryOperation", $operation1, "First operation hould be add an announcement.");
+    }
+
+    /**
+     * @test
+     */
+    public function factory_should_create_category_delete_operation_from_request()
+    {
+        $body = file_get_contents("test/resources/requests/categories-delete-raw.txt");
+
+        $request = Psr7\parse_request($body);
+
+        $operations = $this->operationsFromRequestFactory->createOperations($request);
+        $operation1 = current($operations);
+
+        $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
+        $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\CategoryDeleteOperation", $operation1, "First operation hould be add an announcement.");
+    }
+
 }
