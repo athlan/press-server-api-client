@@ -1,0 +1,16 @@
+{
+    "name": "athlan/press-server-api-client-example",
+    "description": "Press Server API Client Example",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Athlan",
+            "email": "me@athlan.pl"
+        }
+    ],
+    "require": {
+        "athlan/press-server-api-client": "dev-master",
+        "quimcalpe/psr7-response-sender": "0.1.3"
+    }
+}
