@@ -11,7 +11,7 @@ This library allows you to receive callback request from [Press Server](http://w
 * **Keep in mind that order of events matters.**
   Try to retreive operations, reverse it order and store/process in correct order because of occuring dependencies. For example an announcement add event depends on category creation event.
 
-* **Store events localy for futher processing.**
+* **Store events locally for further processing.**
 
   Try to retreive events data from Press Server and store them locally for futher processing to not cause Press Server wait for your    processing. Just store event content to your local event sotre (files, database) and process them in separate thread or in scheduled task (for example cron).
   
