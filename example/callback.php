@@ -1,6 +1,7 @@
 <?php
 
 use GuzzleHttp\Psr7\ServerRequest;
+use PressServerApi\Callback\OperationInterface;
 use PressServerApi\Callback\Operation\Factory\Psr7Request\OperationsFromRequestFactory;
 use PressServerApi\Callback\Operation\Factory\OperationFactoryInterface;
 use PressServerApi\Callback\Operation\Factory\AnnouncementOperationFactory;
@@ -12,6 +13,11 @@ use PressServerApi\Callback\OperationGroupProcessingResult;
 use PressServerApi\Callback\OperationProcessingResult;
 use PressServerApi\Callback\Response\ProcessingResultResponseFactory;
 use PressServerApi\Callback\Response\Psr7Response\ProcessingResultResponseFactory as ProcessingResultPsr7ResponseFactory;
+
+use Example\EventStore\Event;
+use Example\EventStore\EventStoreInterface;
+use Example\EventStore\SimpleFilesystemEventStore;
+use Example\EventStore\Exception\EventAlreadyInStoreException;
 
 use function QuimCalpe\ResponseSender\send AS send_response;
 
@@ -41,12 +47,24 @@ if($request->getMethod() != "POST") {
     return send_response(new \GuzzleHttp\Psr7\Response(401));
 }
 
+/* @var $eventStore EventStoreInterface */
+$eventStore = new SimpleFilesystemEventStore('./eventstore');
+
+/* @var $operations OperationInterface[] */
 $operations = $operationsFromRequestFactory->createOperations($request);
+$operations = array_reverse($operations);
 
 $results = new OperationGroupProcessingResult();
 
 foreach($operations as $operation) {
     // TODO process operation here...
+    // here there is storing events for further processing, which is recommended way
+    // to fast and reliable retrieve events from 3rd party callback
+    try {
+        $eventStore->store(new Event($operation->getOperationKey(), $operation));
+    }
+    catch(EventAlreadyInStoreException $e) {
+    }
 
     // after processing, create the OperarionProcessingResult (success or failure)
     $result = OperationProcessingResult::createResultSuccess($operation);

@@ -1,2 +1,6 @@
 /vendor
 /composer.lock
+
+/eventstore/*
+!/eventstore/.gitkeep
+!/eventstore/ops/.gitkeep
