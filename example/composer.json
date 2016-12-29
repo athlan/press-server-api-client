@@ -10,10 +10,13 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Example\\": "src/" }
+        "psr-4": {
+            "Example\\": "src/",
+            "PressServerApi\\": "../src/PressServerApi/"
+        }
     },
     "require": {
-        "athlan/press-server-api-client": "dev-master",
+        "guzzlehttp/guzzle": "~6.0",
         "quimcalpe/psr7-response-sender": "0.1.3"
     }
 }

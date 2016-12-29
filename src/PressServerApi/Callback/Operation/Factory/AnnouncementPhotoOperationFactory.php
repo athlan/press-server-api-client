@@ -23,12 +23,12 @@ class AnnouncementPhotoOperationFactory implements OperationFactoryInterface {
             return null;
         }
 
-        $id = (int) $matches[1];
+        $id = $matches[1];
 
         return new AnnouncementPhotoOperation(
             $operation,
-            $photoPath,
             $id,
+            $photoPath,
             []
         );
     }
