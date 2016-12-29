@@ -3,6 +3,7 @@
 namespace PressServerApi\Callback\Response;
 
 use PressServerApi\Callback\OperationGroupProcessingResult;
+use PressServerApi\Callback\OperationInterface;
 
 class ProcessingResultResponseFactory {
 
@@ -24,7 +25,8 @@ class ProcessingResultResponseFactory {
                 $msg = $singleResult->getMessage();
             }
 
-            $ops[$singleResult->getOperation()->getOperationKey()] = $msg;
+            $key = $this->getOperationResponseKey($singleResult->getOperation());
+            $ops[$key] = $msg;
         }
 
         $buff .= base64_encode(serialize($ops));
@@ -32,5 +34,10 @@ class ProcessingResultResponseFactory {
         $buff .= ':STREAM-STOP';
 
         return $buff;
+    }
+
+    private function getOperationResponseKey(OperationInterface $operation) {
+        preg_match('/^(.+)_([0-9]+)$/', $operation->getOperationKey(), $matches);
+        return $matches[2];
     }
 }
