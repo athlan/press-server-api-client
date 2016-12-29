@@ -6,6 +6,8 @@ use PressServerApi\Callback\Operation\Factory\Psr7Request\OperationsFromRequestF
 use PressServerApi\Callback\Operation\Factory\OperationFactoryInterface;
 use PressServerApi\Callback\Operation\Factory\AnnouncementOperationFactory;
 use PressServerApi\Callback\Operation\Factory\AnnouncementDeleteOperationFactory;
+use PressServerApi\Callback\Operation\Factory\AnnouncementPhotoOperationFactory;
+use PressServerApi\Callback\Operation\Factory\AnnouncementPhotoDeleteOperationFactory;
 use PressServerApi\Callback\Operation\Factory\CategoryOperationFactory;
 use PressServerApi\Callback\Operation\Factory\CategoryDeleteOperationFactory;
 use PressServerApi\Callback\Operation\Factory\UnknownOperationFactory;
@@ -22,7 +24,6 @@ use Example\EventStore\Exception\EventAlreadyInStoreException;
 use function QuimCalpe\ResponseSender\send AS send_response;
 
 include 'vendor/autoload.php';
-ini_set('always_populate_raw_post_data', -1);
 
 // Step 1. Configure Context (components).
 $responseFactory = new ProcessingResultResponseFactory();
@@ -32,6 +33,8 @@ $responseFactoryPsr7 = new ProcessingResultPsr7ResponseFactory($responseFactory)
 $factories = [
     new AnnouncementOperationFactory(),
     new AnnouncementDeleteOperationFactory(),
+    new AnnouncementPhotoOperationFactory(),
+    new AnnouncementPhotoDeleteOperationFactory(),
     new CategoryOperationFactory(),
     new CategoryDeleteOperationFactory(),
     new UnknownOperationFactory(),

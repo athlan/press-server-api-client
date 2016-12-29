@@ -2,10 +2,10 @@
 
 namespace PressServerApi\Callback\Operation\Factory;
 
-use PressServerApi\Callback\Operation\CategoryDeleteOperation;
+use PressServerApi\Callback\Operation\AnnouncementPhotoDeleteOperation;
 use PressServerApi\Callback\OperationInterface;
 
-class CategoryDeleteOperationFactory implements OperationFactoryInterface {
+class AnnouncementPhotoDeleteOperationFactory implements OperationFactoryInterface {
 
     /**
      * @param string $operation
@@ -14,20 +14,20 @@ class CategoryDeleteOperationFactory implements OperationFactoryInterface {
      */
     public function createOperation($operation, $params)
     {
-        if(!preg_match('/^kategoria_usun_([0-9]+)$/', $operation, $matches)) {
+        if(!preg_match('/^fotodel_([0-9]+)$/', $operation, $matches)) {
             return null;
         }
 
-        $operationParams = $this->extractParams($params);
+        $id = $this->extractParams($params);
 
-        return new CategoryDeleteOperation(
+        return new AnnouncementPhotoDeleteOperation(
             $operation,
-            $operationParams['id'],
+            $id,
             []
         );
     }
 
     private function extractParams($params) {
-        return unserialize(base64_decode($params));
+        return base64_decode($params);
     }
 }
