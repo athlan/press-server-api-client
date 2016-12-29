@@ -4,6 +4,8 @@ namespace PressServerApi\Callback\Operation\Factory\Psr7Request;
 
 use PressServerApi\Callback\Operation\Factory\AnnouncementOperationFactory;
 use PressServerApi\Callback\Operation\Factory\AnnouncementDeleteOperationFactory;
+use PressServerApi\Callback\Operation\Factory\AnnouncementPhotoDeleteOperationFactory;
+use PressServerApi\Callback\Operation\Factory\AnnouncementPhotoOperationFactory;
 use PressServerApi\Callback\Operation\Factory\CategoryDeleteOperationFactory;
 use PressServerApi\Callback\Operation\Factory\CategoryOperationFactory;
 use PressServerApi\Callback\Operation\Factory\OperationFactoryInterface;
@@ -27,6 +29,8 @@ class CreateRequest extends TestCase
         $factories = [
             new AnnouncementOperationFactory(),
             new AnnouncementDeleteOperationFactory(),
+            new AnnouncementPhotoOperationFactory(),
+            new AnnouncementPhotoDeleteOperationFactory(),
             new CategoryOperationFactory(),
             new CategoryDeleteOperationFactory(),
             new UnknownOperationFactory(),
@@ -81,6 +85,38 @@ class CreateRequest extends TestCase
 
         $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
         $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\AnnouncementDeleteOperation", $operation1, "First operation hould be add an announcement.");
+    }
+
+    /**
+     * @test
+     */
+    public function factory_should_create_announcement_photo_operation_from_request()
+    {
+        $body = file_get_contents("test/resources/requests/announements-photo-update-raw.txt");
+
+        $request = Psr7\parse_request($body);
+
+        $operations = $this->operationsFromRequestFactory->createOperations($request);
+        $operation1 = current($operations);
+
+        $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
+        $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\AnnouncementPhotoOperation", $operation1, "First operation hould be add an announcement.");
+    }
+
+    /**
+     * @test
+     */
+    public function factory_should_create_announcement_photo_delete_operation_from_request()
+    {
+        $body = file_get_contents("test/resources/requests/announements-photo-delete-raw.txt");
+
+        $request = Psr7\parse_request($body);
+
+        $operations = $this->operationsFromRequestFactory->createOperations($request);
+        $operation1 = current($operations);
+
+        $this->assertGreaterThanOrEqual(1, count($operations), "Should be one or more operations.");
+        $this->assertInstanceOf("PressServerApi\\Callback\\Operation\\AnnouncementPhotoDeleteOperation", $operation1, "First operation hould be add an announcement.");
     }
 
     /**
