@@ -14,20 +14,16 @@ class CategoryDeleteOperationFactory implements OperationFactoryInterface {
      */
     public function createOperation($operation, $params)
     {
-        if(!preg_match('/^kategoria_([0-9]+)$/', $operation, $matches)) {
+        if(!preg_match('/^kategoria_usun_([0-9]+)$/', $operation, $matches)) {
             return null;
         }
 
-        $announcementParams = $this->extractParams($params);
-
-        if(isset($announcementParams['nazwa'])) {
-            return null;
-        }
+        $operationParams = $this->extractParams($params);
 
         return new CategoryDeleteOperation(
             $operation,
-            $announcementParams['id'],
-            $announcementParams
+            $operationParams['id'],
+            []
         );
     }
 

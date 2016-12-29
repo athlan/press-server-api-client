@@ -18,19 +18,15 @@ class CategoryOperationFactory implements OperationFactoryInterface {
             return null;
         }
 
-        $announcementParams = $this->extractParams($params);
-
-        if(!isset($announcementParams['nazwa'])) {
-            return null;
-        }
+        $operationParams = $this->extractParams($params);
 
         return new CategoryOperation(
             $operation,
-            $announcementParams['id'],
-            $announcementParams['id_nadkategorii'],
-            $announcementParams['nazwa'],
-            $announcementParams['lp'],
-            $announcementParams
+            $operationParams['id'],
+            $operationParams['id_nadkategorii'],
+            $operationParams['nazwa'],
+            $operationParams['lp'],
+            $operationParams
         );
     }
 
