@@ -42,9 +42,9 @@ class ProcessingResultResponseFactoryTest extends TestCase {
         $resultGroup->addResult($result);
 
         $content = serialize([
-            "operation_0" => "processing message 0",
-            "operation_1" => "ok",
-            "operation_2" => "processing message 2",
+            "0" => "processing message 0",
+            "1" => "ok",
+            "2" => "processing message 2",
         ]);
         $content = base64_encode($content);
         $content = "STREAM-START:" . $content . ":STREAM-STOP";
